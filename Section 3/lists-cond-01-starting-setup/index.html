@@ -26,8 +26,18 @@
       </p>
       <ul v-else>
         <!-- 'same' => <ul v-show="goals.length > 0"> -->
-        <li v-for="goal in goals">{{ goal }}</li>
+        <li v-for="(goal, index) in goals">{{ index }} - {{ goal }}</li>
       </ul>
+
+      <!-- <ul>
+        <li v-for="(value, key, index) in {name: 'Anisa', age: 22}">
+          {{ key }}: {{ value }} - {{ index }}
+        </li>
+      </ul> -->
+
+      <!-- <ul>
+        <li v-for="numbers in 10">{{ numbers }}</li>
+      </ul> -->
     </section>
   </body>
 </html>
