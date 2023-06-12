@@ -10,12 +10,43 @@ const app = Vue.createApp({
       this.currentUserInput = event.target.value;
     },
     setText() {
-      this.message = this.currentUserInput;
+      // this.message = this.currentUserInput;
+      this.message = this.$refs.userText.value;
+      // console.log(this.$refs.userText);
     },
+  },
+  // Vue App Lifecycle
+  beforeCreate() {
+    console.log("beforeCreate()");
+  },
+  created() {
+    console.log("created()");
+  },
+  beforeMounted() {
+    console.log("beforeMounted()");
+  },
+  mounted() {
+    console.log("mounted");
+  },
+  beforeUpdate() {
+    console.log("beforeUpdate()");
+  },
+  updated() {
+    console.log("updated()");
+  },
+  beforeUnmount() {
+    console.log("beforeUnmount()");
+  },
+  unmounted() {
+    console.log("unmounted()");
   },
 });
 
 app.mount("#app");
+
+setTimeout(function () {
+  app.unmount();
+}, 3000);
 
 ///////////
 
