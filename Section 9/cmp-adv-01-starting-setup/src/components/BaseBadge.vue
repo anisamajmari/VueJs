@@ -17,6 +17,7 @@ export default {
 </script>
 
 <style scoped>
+/* scoped => tells vue that the styles that defined here should only affect the template in the same file */
 .badge {
   display: inline-block;
   padding: 0.5rem 1rem;
