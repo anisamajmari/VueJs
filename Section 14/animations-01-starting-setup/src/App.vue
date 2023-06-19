@@ -158,7 +158,7 @@ button:active {
   transform: translateY(0);
 } */
 
-.paragraph-leave-avtive {
+.paragraph-leave-active {
   /* transition: all 0.3s ease-in; */
   animation: slide-fade 0.3s ease-in;
 }
