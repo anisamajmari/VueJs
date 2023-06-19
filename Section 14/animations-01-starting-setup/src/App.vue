@@ -12,6 +12,8 @@
       @before-leave="beforeLeave"
       @leave="leave"
       @after-leave="afterLeave"
+      @enter-cancelled="enterCancelled"
+      @leave-cancelled="leaveCancelled"
     >
       <p v-if="paragraphIsVisible">This is only sometimes visible...</p>
     </transition>
@@ -40,6 +42,8 @@ export default {
       animatedBlock: false,
       paragraphIsVisible: false,
       usersAreVisible: false,
+      enterInterval: null,
+      leaveInterval: null,
     };
   },
   methods: {
@@ -61,13 +65,29 @@ export default {
     hideUsers() {
       this.usersAreVisible = false;
     },
+    enterCancelled(element) {
+      console.log(element);
+      clearInterval(this.enterInterval);
+    },
+    leaveCancelled(element) {
+      console.log(element);
+      clearInterval(this.leaveInterval);
+    },
     beforeEnter(element) {
       console.log('beforeEnter');
-      console.log(element);
+      element.style.opacity = 0;
     },
-    enter(element) {
+    enter(element, done) {
       console.log('enter');
-      console.log(element);
+      let round = 1;
+      this.enterInterval = setInterval(() => {
+        element.style.opacity = round * 0.01;
+        round++;
+        if (round > 100) {
+          clearInterval(this.enterInterval);
+          done();
+        }
+      }, 20);
     },
     afterEnter(element) {
       console.log('afterEnter');
@@ -75,11 +95,19 @@ export default {
     },
     beforeLeave(element) {
       console.log('beforeLeave');
-      console.log(element);
+      element.style.opacity = 1;
     },
-    leave(element) {
+    leave(element, done) {
       console.log('leave');
-      console.log(element);
+      let round = 1;
+      this.leaveInterval = setInterval(() => {
+        element.style.opacity = 1 - round * 0.01;
+        round++;
+        if (round > 100) {
+          clearInterval(this.leaveInterval);
+          done();
+        }
+      }, 20);
     },
     afterLeave(element) {
       console.log('After leave');
@@ -143,10 +171,9 @@ button:active {
   transform: translateY(-30px);
 } */
 
-.paragraph-enter-active {
-  /* transition: all 0.3s ease-out; */
+/* .paragraph-enter-active {
   animation: slide-fade 2s ease-out;
-}
+} */
 
 /* .paragraph-enter-to {
   opacity: 1;
@@ -158,10 +185,9 @@ button:active {
   transform: translateY(0);
 } */
 
-.paragraph-leave-active {
-  /* transition: all 0.3s ease-in; */
+/* .paragraph-leave-active {
   animation: slide-fade 0.3s ease-in;
-}
+} */
 
 /* .paragraph-leave-to {
   opacity: 0;
