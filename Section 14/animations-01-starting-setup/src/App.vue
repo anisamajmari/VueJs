@@ -5,7 +5,7 @@
   </div>
   <div class="container">
     <transition
-      name="paragraph"
+      :css="false"
       @before-enter="beforeEnter"
       @enter="enter"
       @after-enter="afterEnter"
