@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import CoachDetails from './pages/coaches/CoachDetails.vue';
 import CoachesList from './pages/coaches/CoachesList.vue';
-import CoachRegistration from './pages/coaches/CoachRegistration';
+import CoachRegistration from './pages/coaches/CoachRegistration.vue';
 import ContactCoach from './pages/requests/ContactCoach.vue';
 import RequestsReceive from './pages/requests/RequestsReceive.vue';
 import NotFound from './pages/NotFound.vue';
