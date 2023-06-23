@@ -2,7 +2,27 @@ import { API_KEY, API_SIGNIN_URL, API_SIGNUP_URL } from '../../../config.js';
 
 export default {
   async login(context, payload) {
-    const response = await fetch(`${API_SIGNIN_URL}key=${API_KEY}`, {
+    return context.dispatch('auth', {
+      ...payload,
+      mode: 'login',
+    });
+  },
+
+  async signup(context, payload) {
+    return context.dispatch('auth', {
+      ...payload,
+      mode: 'signup',
+    });
+  },
+
+  async auth(context, payload) {
+    const mode = payload.mode;
+    let url = API_SIGNIN_URL;
+
+    if (mode === 'signup') {
+      url = API_SIGNUP_URL;
+    }
+    const response = await fetch(`${url}key=${API_KEY}`, {
       method: 'POST',
       body: JSON.stringify({
         email: payload.email,
@@ -13,14 +33,15 @@ export default {
 
     const responseData = await response.json();
     if (!response.ok) {
-      console.log(responseData);
       const error = new Error(
         responseData.message || 'Failed to authenticate!'
       );
       throw error;
     }
 
-    console.log(responseData);
+    localStorage.setItem('token', responseData.idToken);
+    localStorage.setItem('userId', responseData.localId);
+
     context.commit('setUser', {
       token: responseData.idToken,
       userId: responseData.localId,
@@ -28,31 +49,17 @@ export default {
     });
   },
 
-  async signup(context, payload) {
-    const response = await fetch(`${API_SIGNUP_URL}key=${API_KEY}`, {
-      method: 'POST',
-      body: JSON.stringify({
-        email: payload.email,
-        password: payload.password,
-        returnSecureToken: true,
-      }),
-    });
+  autoLogin(context) {
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
 
-    const responseData = await response.json();
-    if (!response.ok) {
-      console.log(responseData);
-      const error = new Error(
-        responseData.message || 'Failed to authenticate!'
-      );
-      throw error;
+    if (token && userId) {
+      context.commit('setUser', {
+        token: token,
+        userId: userId,
+        tokenExpiration: null,
+      });
     }
-
-    console.log(responseData);
-    context.commit('setUser', {
-      token: responseData.idToken,
-      userId: responseData.localId,
-      tokenExpiration: responseData.expiresIn,
-    });
   },
 
   logout(context) {
