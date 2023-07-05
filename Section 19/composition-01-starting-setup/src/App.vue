@@ -12,7 +12,7 @@
 
 <script>
 // import { reactive } from 'vue';
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 
 export default {
   setup() {
@@ -29,6 +29,13 @@ export default {
 
     const fullName = computed(function () {
       return firstName.value + ' ' + lastName.value;
+    });
+
+    watch([age, fullName], function (newValues, oldValues) {
+      console.log('Old age: ' + oldValues[0]);
+      console.log('New age: ' + newValues[0]);
+      console.log('Old name: ' + oldValues[1]);
+      console.log('New name: ' + newValues[1]);
     });
 
     function setNewAge() {
@@ -57,6 +64,11 @@ export default {
 
   // methods: {
   //   setNewAge() {
+  //   },
+  // },
+  // watch: {
+  //   age(value) {
+  //     console.log(value);
   //   },
   // },
 };
