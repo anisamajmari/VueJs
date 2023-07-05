@@ -20,30 +20,35 @@
 </template>
 
 <script>
+import { ref, computed, watch } from 'vue';
+
 export default {
-  data() {
-    return {
-      availableFunds: 100,
-      currentExpenses: 0,
-      enteredExpense: 0,
-    };
-  },
-  computed: {
-    remainingFunds() {
-      return this.availableFunds - this.currentExpenses;
-    },
-  },
-  methods: {
-    addExpense() {
-      this.currentExpenses += this.enteredExpense;
-    },
-  },
-  watch: {
-    remainingFunds(val) {
-      if (val < 0) {
+  setup() {
+    const availableFunds = 100;
+    const currentExpenses = ref(0);
+    const enteredExpense = ref(0);
+
+    const remainingFunds = computed(function () {
+      return availableFunds - currentExpenses.value;
+    });
+
+    function addExpense() {
+      currentExpenses.value = currentExpenses.value + enteredExpense.value;
+    }
+
+    watch(remainingFunds, function (newValue) {
+      if (newValue < 0) {
         alert('You are broke!');
       }
-    },
+    });
+
+    return {
+      availableFunds,
+      currentExpenses,
+      enteredExpense,
+      addExpense,
+      remainingFunds,
+    };
   },
 };
 </script>
