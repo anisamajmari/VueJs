@@ -5,7 +5,8 @@
     <button @click="setAge">Change Age</button>
     <div>
       <input type="text" placeholder="First Name" v-model="firstName" />
-      <input type="text" placeholder="Last Name" v-model="lastName" />
+      <input type="text" placeholder="Last Name" ref="lastNameInput" />
+      <button @click="setLastName">Set name</button>
     </div>
   </section>
 </template>
@@ -21,6 +22,7 @@ export default {
 
     const firstName = ref('');
     const lastName = ref('');
+    const lastNameInput = ref(null);
 
     // const user = reactive({
     //   name: 'Anisa',
@@ -43,6 +45,10 @@ export default {
       age.value = 22;
     }
 
+    function setLastName() {
+      lastName.value = lastNameInput.value.value;
+    }
+
     // return {
     //   user: user,
     //   setAge: setNewAge,
@@ -53,7 +59,8 @@ export default {
       age: age,
       setAge: setNewAge,
       firstName,
-      lastName,
+      lastNameInput,
+      setLastName,
     };
   },
   // data() {
