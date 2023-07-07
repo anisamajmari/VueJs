@@ -63,13 +63,13 @@ export default {
       }, 300);
     });
 
-    watch(props, function () {
-      enteredSearchTerm.value = '';
-    });
-
     // const propsWithRefs = toRefs(props);
     // const user = propsWithRefs.user;
     const { user } = toRefs(props);
+
+    watch(user, function () {
+      enteredSearchTerm.value = '';
+    });
 
     return {
       hasProjects,
