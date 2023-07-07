@@ -6,9 +6,10 @@
 </template>
 
 <script>
-import { computed } from 'vue';
+import { computed, inject } from 'vue';
 export default {
-  props: ['firstName', 'lastName', 'age'],
+  // inject:[]
+  props: ['firstName', 'lastName'],
   //   computed: {
   //     userName() {
   //       return this.firstName + ' ' + this.lastName;
@@ -19,11 +20,12 @@ export default {
       return props.firstName + ' ' + props.lastName;
     });
 
-    console.log(context);
+    const age = inject('userAge');
 
     context.emit('save-data'); // this.$emit('save-data', 1)
     return {
       userName: uName,
+      age,
     };
   },
 };
