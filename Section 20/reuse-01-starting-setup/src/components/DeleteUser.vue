@@ -16,6 +16,12 @@ export default {
   components: {
     UserAlert,
   },
+  data() {
+    return {
+      alertTitle: 'Delete User?',
+      alertIsVisible: true,
+    };
+  },
   mixins: [alertMixin],
 };
 </script>
